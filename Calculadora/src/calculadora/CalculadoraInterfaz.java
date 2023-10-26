@@ -1,7 +1,6 @@
 
 package calculadora;
 
-
 public class CalculadoraInterfaz extends javax.swing.JFrame {
     // VARIABLES 
     String numero1;
@@ -11,8 +10,7 @@ public class CalculadoraInterfaz extends javax.swing.JFrame {
     public CalculadoraInterfaz() {
         initComponents();
     }
-    
-    
+        
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -35,7 +33,7 @@ public class CalculadoraInterfaz extends javax.swing.JFrame {
         button_punto = new javax.swing.JButton();
         limpiar = new javax.swing.JButton();
         resultado = new javax.swing.JButton();
-        raiz_cuadrada = new javax.swing.JButton();
+        borrar_todo = new javax.swing.JButton();
         restar = new javax.swing.JButton();
         suma = new javax.swing.JButton();
         division = new javax.swing.JButton();
@@ -174,15 +172,15 @@ public class CalculadoraInterfaz extends javax.swing.JFrame {
             }
         });
 
-        raiz_cuadrada.setText("√");
-        raiz_cuadrada.setPreferredSize(new java.awt.Dimension(38, 38));
-        raiz_cuadrada.addActionListener(new java.awt.event.ActionListener() {
+        borrar_todo.setText("CE");
+        borrar_todo.setPreferredSize(new java.awt.Dimension(38, 38));
+        borrar_todo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                raiz_cuadradaActionPerformed(evt);
+                borrar_todoActionPerformed(evt);
             }
         });
 
-        restar.setText("–");
+        restar.setText("-");
         restar.setPreferredSize(new java.awt.Dimension(38, 38));
         restar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -259,7 +257,7 @@ public class CalculadoraInterfaz extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(raiz_cuadrada, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(borrar_todo, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(suma, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -304,7 +302,7 @@ public class CalculadoraInterfaz extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(limpiar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(raiz_cuadrada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(borrar_todo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(54, 54, 54)
@@ -368,11 +366,28 @@ public class CalculadoraInterfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_num0ActionPerformed
 
     private void button_puntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_puntoActionPerformed
-        resultados_pantalla.setText(resultados_pantalla.getText() + ".");
+        String cadena;
+        cadena = resultados_pantalla.getText();
+        
+        if (cadena.length()<=0 ) {
+            resultados_pantalla.setText("0.");
+        }
+        else {
+            if (!ExistePunto(resultados_pantalla.getText())) {
+                resultados_pantalla.setText(resultados_pantalla.getText() + ".");
+            }
+        }
     }//GEN-LAST:event_button_puntoActionPerformed
 
     private void limpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limpiarActionPerformed
         // TODO add your handling code here:
+        String cadena;
+        cadena = resultados_pantalla.getText();
+        
+        if (cadena.length() > 0) {
+            cadena = cadena.substring(0, cadena.length()-1);
+            resultados_pantalla.setText(cadena);
+        }
     }//GEN-LAST:event_limpiarActionPerformed
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
@@ -380,32 +395,85 @@ public class CalculadoraInterfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void resultadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resultadoActionPerformed
-
+        String Total;
+        numero2 = resultados_pantalla.getText();
+        
+        if (!numero2.equals("")) {
+            Total = Operacion (numero1, signo, numero2);
+            resultados_pantalla.setText(Total);
+        }
     }//GEN-LAST:event_resultadoActionPerformed
 
-    private void raiz_cuadradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_raiz_cuadradaActionPerformed
-        resultados_pantalla.setText(resultados_pantalla.getText() + "√");
-    }//GEN-LAST:event_raiz_cuadradaActionPerformed
+    private void borrar_todoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrar_todoActionPerformed
+        resultados_pantalla.setText("");
+    }//GEN-LAST:event_borrar_todoActionPerformed
 
     private void restarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_restarActionPerformed
-        resultados_pantalla.setText(resultados_pantalla.getText() + "-");
+        if (!resultados_pantalla.getText().equals("")) {
+            numero1 = resultados_pantalla.getText();
+            signo = "-";
+            resultados_pantalla.setText("");
+        }
     }//GEN-LAST:event_restarActionPerformed
 
     private void sumaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sumaActionPerformed
-        resultados_pantalla.setText(resultados_pantalla.getText() + "+");
+        if (!resultados_pantalla.getText().equals("")) {
+            numero1 = resultados_pantalla.getText();
+            signo = "+";
+            resultados_pantalla.setText("+");
+        }
     }//GEN-LAST:event_sumaActionPerformed
 
     private void divisionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_divisionActionPerformed
-        resultados_pantalla.setText(resultados_pantalla.getText() + "÷");
+        if (!resultados_pantalla.getText().equals("")) {
+            numero1 = resultados_pantalla.getText();
+            signo = "÷";
+            resultados_pantalla.setText("");
+        }
     }//GEN-LAST:event_divisionActionPerformed
 
     private void multiplicacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_multiplicacionActionPerformed
-        resultados_pantalla.setText(resultados_pantalla.getText() + "x");
+        if (!resultados_pantalla.getText().equals("")) {
+            numero1 = resultados_pantalla.getText();
+            signo = "x";
+            resultados_pantalla.setText("");
+        }
     }//GEN-LAST:event_multiplicacionActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    public static boolean ExistePunto(String cadena){
+        boolean resultado;
+        resultado = false;
+        
+        for (int i = 0; i < cadena.length(); i++) {
+            if (cadena.substring(i, i+i).equals(".")) {
+            resultado = true;
+            break;
+        }
+        }
+        return resultado;
+    }
+    
+    public static String Operacion(String numero1, String signo, String numero2) {
+        Double Total = 0.0;
+        String Resultado;
+        
+        if (signo.equals("+")) {
+            Total = Double.parseDouble(numero1) + Double.parseDouble(numero2);
+        }
+        if (signo.equals("-")) {
+            Total = Double.parseDouble(numero1) - Double.parseDouble(numero2);
+        }
+        if (signo.equals("÷")) {
+            Total = Double.parseDouble(numero1) / Double.parseDouble(numero2);
+        }
+        if (signo.equals("x")) {
+            Total = Double.parseDouble(numero1) * Double.parseDouble(numero2);
+        }
+        
+        Resultado = Total.toString();
+        return Resultado;
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -439,6 +507,7 @@ public class CalculadoraInterfaz extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton borrar_todo;
     private javax.swing.JButton button_punto;
     private javax.swing.JButton division;
     private javax.swing.JButton jButton15;
@@ -459,7 +528,6 @@ public class CalculadoraInterfaz extends javax.swing.JFrame {
     private javax.swing.JButton num7;
     private javax.swing.JButton num8;
     private javax.swing.JButton num9;
-    private javax.swing.JButton raiz_cuadrada;
     private javax.swing.JButton restar;
     private javax.swing.JButton resultado;
     private javax.swing.JTextArea resultados_pantalla;
